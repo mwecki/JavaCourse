@@ -1,0 +1,34 @@
+swagger: "2.0"
+info:
+  title: MovieApp
+  description: MovieApp description.
+  version: 0.5.4
+host: api.wsb.pl
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+definitions:
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Error message
+    required:
+      - message
+    example:
+      message: 'Sample error message.'
+paths:
+  /users:
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in Markdown.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
