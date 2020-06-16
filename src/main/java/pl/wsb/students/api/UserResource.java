@@ -19,4 +19,16 @@ public class UserResource
     public Response postUser(RegisterUserRequest body) {
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
+
+    @POST
+    @Path(ApiEndpoints.CHANGEPASSWORD)
+    public Response postNewPassword(ChangePasswordRequest body) {
+        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+    }
+
+    @POST
+    @Path(ApiEndpoints.LOGOUT)
+    public Response Logout() {
+        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+    }
 }

@@ -39,4 +39,9 @@ public class MovieResource {
     public Response putMovieIdReject(Integer id) {
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
+    @PUT
+    @Path(ApiEndpoints.MOVIE_ID_FAVORITE)
+    public Response putMovieIdFavorite(Integer id) {
+        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+    }
 }

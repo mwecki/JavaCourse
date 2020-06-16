@@ -55,6 +55,23 @@ definitions:
     example:
       email: 'uzytkownik@java-course-wsb.pl'
       password: 'password'
+  ChangePasswordRequest:
+    type: object
+    properties:
+      email:
+        type: string
+      oldpassword:
+        type: string
+      newpassword:
+        type: string
+    required:
+      - email
+      - oldpassword
+      - newpassword
+    example:
+      email: 'uzytkownik@java-course-wsb.pl'
+      oldpassword: 'password'
+      newpassword: 'password'
   Actor:
     type: object
     properties:
@@ -90,6 +107,15 @@ definitions:
           - Science fiction
           - Thriller
         description: Movie genre
+      category:
+        type: string
+        enum:
+          - G
+          - PG
+          - PG13
+          - R
+          - NC17
+        description: Movie Age Category
       title:
         type: string
         description: Movie title
@@ -113,6 +139,7 @@ definitions:
     example:
       id: 1
       genre: 'Science fiction'
+      category: 'G'
       title: 'Gwiezdne wojny: Część IV - Nowa nadzieja'
       year: '1977'
       director: 'George Lucas'
@@ -146,6 +173,7 @@ definitions:
       data:
         - id: 1
           genre: 'Science fiction'
+          category: 'G'
           title: 'Gwiezdne wojny: Część IV - Nowa nadzieja'
           year: '1977'
           director: 'George Lucas'
@@ -161,6 +189,7 @@ definitions:
               last_name: 'Fisher'
         - id: 1
           genre: 'Science fiction'
+          category: 'G'
           title: 'Gwiezdne wojny: Część IV - Nowa nadzieja'
           year: '1977'
           director: 'George Lucas'
@@ -176,6 +205,7 @@ definitions:
               last_name: 'Fisher'
         - id: 1
           genre: 'Science fiction'
+          category: 'G'
           title: 'Gwiezdne wojny: Część IV - Nowa nadzieja'
           year: '1977'
           director: 'George Lucas'
@@ -234,6 +264,15 @@ definitions:
           - Science fiction
           - Thriller
         description: Movie genre
+      category:
+        type: string
+        enum:
+          - G
+          - PG
+          - PG13
+          - R
+          - NC17
+        description: Movie Age Category
       title:
         type: string
         description: Movie title
@@ -246,11 +285,13 @@ definitions:
         description: Movie director
     required:
       - genre
+      - category
       - title
       - year
       - director
     example:
       genre: 'Science fiction'
+      category: 'G'
       title: 'Gwiezdne wojny: Część IV - Nowa nadzieja'
       year: '1977'
       director: 'George Lucas'
@@ -321,6 +362,59 @@ paths:
             $ref: '#/definitions/Error'
         401:
           description: Unauthorized error, e.g. bad credentials data
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+  /user/changepassword:
+    post:
+      summary: post user new password.
+      operationId: postNewPassword
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - description: Credentials data.
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/ChangePasswordRequest'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Unauthorized error, e.g. bad credentials data
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+  /user/logout:
+    post:
+      summary: Logout user.
+      operationId: Logout
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Success
+        400:
+          description: Client error, e.g. unsifficient data
           schema:
             $ref: '#/definitions/Error'
         500:
@@ -424,6 +518,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+
   /library:
     post:
       summary: Add movie to library.
@@ -444,6 +539,40 @@ paths:
             $ref: '#/definitions/Error'
         401:
           description: Unauthorized error
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+  /movie/{id}/favorite:
+    put:
+      summary: Mark movie as favorite
+      operationId: putMovieIdFavorite
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - description: Movie id
+          in: path
+          name: id
+          required: true
+          type: integer
+      responses:
+        204:
+          description: Success
+        400:
+          description: Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Unauthorized error
+          schema:
+            $ref: '#/definitions/Error'
+        403:
+          description: Forbidden error
           schema:
             $ref: '#/definitions/Error'
         500:
