@@ -23,7 +23,7 @@ import javax.validation.constraints.*;
 /**
  * MovieRequest
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-06-13T11:22:50.180Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-06-16T17:00:47.790Z")
 public class MovieRequest   {
   /**
    * Movie genre
@@ -65,6 +65,46 @@ public class MovieRequest   {
   @JsonProperty("genre")
   private GenreEnum genre = null;
 
+  /**
+   * Movie Age Category
+   */
+  public enum CategoryEnum {
+    G("G"),
+    
+    PG("PG"),
+    
+    PG13("PG13"),
+    
+    R("R"),
+    
+    NC17("NC17");
+
+    private String value;
+
+    CategoryEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static CategoryEnum fromValue(String text) {
+      for (CategoryEnum b : CategoryEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("category")
+  private CategoryEnum category = null;
+
   @JsonProperty("title")
   private String title = null;
 
@@ -92,6 +132,26 @@ public class MovieRequest   {
 
   public void setGenre(GenreEnum genre) {
     this.genre = genre;
+  }
+
+  public MovieRequest category(CategoryEnum category) {
+    this.category = category;
+    return this;
+  }
+
+  /**
+   * Movie Age Category
+   * @return category
+   **/
+  @JsonProperty("category")
+  @ApiModelProperty(required = true, value = "Movie Age Category")
+  @NotNull
+  public CategoryEnum getCategory() {
+    return category;
+  }
+
+  public void setCategory(CategoryEnum category) {
+    this.category = category;
   }
 
   public MovieRequest title(String title) {
@@ -156,7 +216,7 @@ public class MovieRequest   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -165,6 +225,7 @@ public class MovieRequest   {
     }
     MovieRequest movieRequest = (MovieRequest) o;
     return Objects.equals(this.genre, movieRequest.genre) &&
+        Objects.equals(this.category, movieRequest.category) &&
         Objects.equals(this.title, movieRequest.title) &&
         Objects.equals(this.year, movieRequest.year) &&
         Objects.equals(this.director, movieRequest.director);
@@ -172,7 +233,7 @@ public class MovieRequest   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(genre, title, year, director);
+    return Objects.hash(genre, category, title, year, director);
   }
 
 
@@ -182,6 +243,7 @@ public class MovieRequest   {
     sb.append("class MovieRequest {\n");
     
     sb.append("    genre: ").append(toIndentedString(genre)).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    year: ").append(toIndentedString(year)).append("\n");
     sb.append("    director: ").append(toIndentedString(director)).append("\n");
@@ -193,7 +255,7 @@ public class MovieRequest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

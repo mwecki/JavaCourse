@@ -1,6 +1,7 @@
 package pl.wsb.students.api;
 
 import pl.wsb.students.consts.ApiEndpoints;
+import pl.wsb.students.model.ChangePasswordRequest;
 import pl.wsb.students.model.RegisterUserRequest;
 
 import javax.ws.rs.Consumes;

@@ -19,17 +19,20 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 
 /**
- * AuthenticationRequest
+ * ChangePasswordRequest
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-06-16T17:00:47.790Z")
-public class AuthenticationRequest   {
+public class ChangePasswordRequest   {
   @JsonProperty("email")
   private String email = null;
 
-  @JsonProperty("password")
-  private String password = null;
+  @JsonProperty("oldpassword")
+  private String oldpassword = null;
 
-  public AuthenticationRequest email(String email) {
+  @JsonProperty("newpassword")
+  private String newpassword = null;
+
+  public ChangePasswordRequest email(String email) {
     this.email = email;
     return this;
   }
@@ -49,24 +52,44 @@ public class AuthenticationRequest   {
     this.email = email;
   }
 
-  public AuthenticationRequest password(String password) {
-    this.password = password;
+  public ChangePasswordRequest oldpassword(String oldpassword) {
+    this.oldpassword = oldpassword;
     return this;
   }
 
   /**
-   * Get password
-   * @return password
+   * Get oldpassword
+   * @return oldpassword
    **/
-  @JsonProperty("password")
+  @JsonProperty("oldpassword")
   @ApiModelProperty(required = true, value = "")
   @NotNull
-  public String getPassword() {
-    return password;
+  public String getOldpassword() {
+    return oldpassword;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setOldpassword(String oldpassword) {
+    this.oldpassword = oldpassword;
+  }
+
+  public ChangePasswordRequest newpassword(String newpassword) {
+    this.newpassword = newpassword;
+    return this;
+  }
+
+  /**
+   * Get newpassword
+   * @return newpassword
+   **/
+  @JsonProperty("newpassword")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+  public String getNewpassword() {
+    return newpassword;
+  }
+
+  public void setNewpassword(String newpassword) {
+    this.newpassword = newpassword;
   }
 
 
@@ -78,24 +101,26 @@ public class AuthenticationRequest   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AuthenticationRequest authenticationRequest = (AuthenticationRequest) o;
-    return Objects.equals(this.email, authenticationRequest.email) &&
-        Objects.equals(this.password, authenticationRequest.password);
+    ChangePasswordRequest changePasswordRequest = (ChangePasswordRequest) o;
+    return Objects.equals(this.email, changePasswordRequest.email) &&
+        Objects.equals(this.oldpassword, changePasswordRequest.oldpassword) &&
+        Objects.equals(this.newpassword, changePasswordRequest.newpassword);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, password);
+    return Objects.hash(email, oldpassword, newpassword);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AuthenticationRequest {\n");
+    sb.append("class ChangePasswordRequest {\n");
     
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    oldpassword: ").append(toIndentedString(oldpassword)).append("\n");
+    sb.append("    newpassword: ").append(toIndentedString(newpassword)).append("\n");
     sb.append("}");
     return sb.toString();
   }
