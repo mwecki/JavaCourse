@@ -1,2 +1,2 @@
-# RestAPI
+# JavaCourse
  JAVA Course
