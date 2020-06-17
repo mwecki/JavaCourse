@@ -4,6 +4,7 @@ import pl.wsb.students.consts.ApiEndpoints;
 import pl.wsb.students.model.MovieRatingRequest;
 import pl.wsb.students.model.MovieRequest;
 
+import javax.persistence.Persistence;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,6 +19,7 @@ public class MovieResource {
             @QueryParam(ApiEndpoints.PARAM_OFFSET) Integer offset,
             @QueryParam(ApiEndpoints.PARAM_SEARCH) String search
     ) {
+        Persistence.createEntityManagerFactory("manager").createEntityManager();
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
     @POST

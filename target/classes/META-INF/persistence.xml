@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+    <persistence-unit name="manager" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>pl.wsb.students.hibernate.MovieLibraryStatus</class>
+        <class>pl.wsb.students.hibernate.Actor</class>
+        <class>pl.wsb.students.hibernate.Movie</class>
+        <class>pl.wsb.students.hibernate.MovieLibrary</class>
+        <class>pl.wsb.students.hibernate.UserAccount</class>
+        <class>pl.wsb.students.hibernate.Director</class>
+        <class>pl.wsb.students.hibernate.ApiToken</class>
+        <class>pl.wsb.students.hibernate.MovieRequestStatus</class>
+        <class>pl.wsb.students.hibernate.MovieRating</class>
+        <class>pl.wsb.students.hibernate.MovieFavorite</class>
+        <class>pl.wsb.students.hibernate.UserAccountRole</class>
+        <class>pl.wsb.students.hibernate.MovieActor</class>
+        <class>pl.wsb.students.hibernate.MovieGenre</class>
+        <class>pl.wsb.students.hibernate.MovieCategory</class>
+        <class>pl.wsb.students.hibernate.Role</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.user" value="java_course_wsb" />
+            <property name="javax.persistence.jdbc.password" value="nupGmJwDuH6tXWb9" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/java_course_wsb?useLegacyDatetimeCode=false&amp;serverTimezone=CET" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
+            <property name="hibernate.show_sql" value="true" />
+        </properties>
+    </persistence-unit>
+</persistence>
