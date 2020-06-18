@@ -295,6 +295,27 @@ definitions:
       title: 'Gwiezdne wojny: Część IV - Nowa nadzieja'
       year: '1977'
       director: 'George Lucas'
+  AuthenticationResponse:
+    type: object
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+      user_id:
+        type: integer
+      email_address:
+        type: string
+    required:
+      - access_token
+      - expires_in
+      - user_id
+      - email_address
+    example:
+      access_token: 'user_access_token'
+      expires_in: 1800
+      user_id: 1
+      user_mail: 'uzytkownik@java-course-wsb.pl'
 
   Error:
     type: object
@@ -355,7 +376,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/AuthenticationResponse'
         400:
           description: Client error, e.g. unsifficient data
           schema:
@@ -403,7 +424,7 @@ paths:
             $ref: '#/definitions/Error'
 
   /user/logout:
-    post:
+    delete:
       summary: Logout user.
       operationId: Logout
       consumes:

@@ -1,5 +1,9 @@
 package pl.wsb.students.hibernate;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
+import pl.wsb.students.exceptions.ValidationException;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -136,6 +140,28 @@ public class UserAccount implements java.io.Serializable {
     }
     public void setApiTokens(Set<ApiToken> apiTokens) {
         this.apiTokens = apiTokens;
+    }
+
+    public boolean validatePass(String password) throws ValidationException {
+        if (StringUtils.isBlank(password)) {
+            return false;
+        } //if
+        return generatePassHash(password, this.passSalt).equalsIgnoreCase(this.passHash);
+    }
+    public String generatePassHash(String password, String salt) throws ValidationException {
+        if (StringUtils.isBlank(password)) {
+            throw new ValidationException("Password is empty...");
+        } //if
+        if (StringUtils.isBlank(salt)) {
+            throw new ValidationException("Salt is empty...");
+        } //if
+        return DigestUtils.sha256Hex(
+            String.format(
+                "%s%s",
+                password,
+                salt
+            )
+        );
     }
 }
 
