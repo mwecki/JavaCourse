@@ -16,6 +16,9 @@ package pl.wsb.students.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import org.apache.commons.lang3.StringUtils;
+import pl.wsb.students.exceptions.ValidationException;
+
 import javax.validation.constraints.*;
 
 /**
@@ -134,6 +137,18 @@ public class ChangePasswordRequest   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validateData() throws ValidationException {
+    if (StringUtils.isBlank(this.email)) {
+      throw new ValidationException("Please provide email address...");
+    }
+    if (StringUtils.isBlank(this.oldpassword)) {
+      throw new ValidationException("Please provide old password...");
+    }
+    if (StringUtils.isBlank(this.newpassword)) {
+      throw new ValidationException("Please provide new password...");
+    }
   }
 }
 

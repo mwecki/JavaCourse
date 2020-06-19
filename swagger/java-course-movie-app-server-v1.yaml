@@ -391,9 +391,9 @@ paths:
             $ref: '#/definitions/Error'
 
   /user/changepassword:
-    post:
-      summary: post user new password.
-      operationId: postNewPassword
+    put:
+      summary: put user new password.
+      operationId: putNewPassword
       consumes:
         - application/json
       produces:
@@ -616,7 +616,7 @@ paths:
           required: true
           type: integer
       responses:
-        204:
+        200:
           description: Success
         400:
           description: Client error, e.g. unsifficient data

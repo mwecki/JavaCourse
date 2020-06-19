@@ -83,9 +83,7 @@ public class ApiTokenRepository extends AbstractRepository<ApiToken, Integer> {
 
         EntityManagerHelper.startTransaction();
 
-        userAccount.getApiTokens().forEach((apiToken) -> {
-            delete(apiToken);
-        });
+        userAccount.getApiTokens().forEach(this::delete);
 
         EntityManagerHelper.commitTransaction();
 

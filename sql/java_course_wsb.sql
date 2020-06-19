@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 17 Cze 2020, 21:28
+-- Generation Time: 19 Cze 2020, 20:32
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -57,7 +57,18 @@ CREATE TABLE IF NOT EXISTS `api_token` (
   KEY `api_token_idx1` (`created`),
   KEY `api_token_idx2` (`valid_to`),
   KEY `api_token_fk0` (`user_account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=9 ;
+
+--
+-- Zrzut danych tabeli `api_token`
+--
+
+INSERT INTO `api_token` (`id`, `created`, `modified`, `user_account_id`, `access_token`, `refresh_token`, `valid_to`) VALUES
+(4, '2020-06-19 15:46:45', '2020-06-19 15:46:45', 1, '8fa445c70d81e4a0932b56820d64e2fbab01a0763d6a3c4f410c3872fc6cdbad', '4b0afeb2017caae63350de1c14fc1228a750eb655513bf770f43b146af306c47', '2020-06-19 16:23:40'),
+(5, '2020-06-19 15:54:23', '2020-06-19 15:54:23', 1, '24d53f9a0dc9c3f10eed43a651625881d79959671dc170aeb0829f6568315275', '5cb93ec201e8f8efb1df7dfae8356ce5d5e79555dd84f636cd5e26a5bf3e23b3', '2020-06-19 16:24:23'),
+(6, '2020-06-19 15:54:52', '2020-06-19 15:54:52', 1, '69bcd433c78920057285d78b22d31c8fda1aa3780513261e531ae35fb85e0615', 'e9361adadd252a9283340210a287eb0d58be770fa1aa9b42e7941a849cb0ca9e', '2020-06-19 16:24:52'),
+(7, '2020-06-19 17:01:05', '2020-06-19 17:01:05', 1, 'bd808f1733f3237b231a3b31b557bed284840b12566d0f009a2312ad906fab68', '22cdcfe902b7f2256034750787633f62f49a45d351bd7ee9738cf06e8327a60f', '2020-06-19 17:55:50'),
+(8, '2020-06-19 18:13:49', '2020-06-19 18:13:49', 1, 'f6d6b6e827e8e4c906bb21b9d7c3556ac0da13626137dcd33eb76528ea7306f4', '911f56b774fad5d93549c97e666fa4aab63c685c9ed0fecfa896f684112c57f6', '2020-06-19 18:58:47');
 
 -- --------------------------------------------------------
 
@@ -75,7 +86,14 @@ CREATE TABLE IF NOT EXISTS `director` (
   PRIMARY KEY (`id`),
   KEY `director_idx0` (`last_name`),
   KEY `director_idx1` (`deleted`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
+
+--
+-- Zrzut danych tabeli `director`
+--
+
+INSERT INTO `director` (`id`, `created`, `modified`, `first_name`, `last_name`, `deleted`) VALUES
+(1, '2020-06-19 16:58:01', '2020-06-19 18:26:59', 'Martyn', 'Wecki', 0);
 
 -- --------------------------------------------------------
 
@@ -101,7 +119,17 @@ CREATE TABLE IF NOT EXISTS `movie` (
   KEY `movie_fk1` (`director_id`),
   KEY `movie_fk2` (`request_status_id`),
   KEY `category_id` (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=5 ;
+
+--
+-- Zrzut danych tabeli `movie`
+--
+
+INSERT INTO `movie` (`id`, `created`, `modified`, `request_status_id`, `genre_id`, `category_id`, `director_id`, `title`, `release_year`, `deleted`) VALUES
+(1, '2020-06-19 16:58:07', '2020-06-19 16:58:07', 1, 1, 1, 1, 'Movie Test Title', '2020', 0),
+(2, '2020-06-19 18:18:01', '2020-06-19 18:18:01', NULL, 1, 2, 1, 'test888', '2020', NULL),
+(3, '2020-06-19 18:27:08', '2020-06-19 18:27:08', 1, 1, 2, 1, 'test888', '2020', 0),
+(4, '2020-06-19 18:28:47', '2020-06-19 18:28:47', 1, 1, 2, 1, 'test888', '2020', 0);
 
 -- --------------------------------------------------------
 
@@ -146,9 +174,9 @@ CREATE TABLE IF NOT EXISTS `movie_category` (
 INSERT INTO `movie_category` (`id`, `created`, `modified`, `name`, `abbr`, `deleted`) VALUES
 (1, '2020-06-16 16:32:08', '2020-06-17 16:56:01', 'G', 'G', 0),
 (2, '2020-06-16 16:32:08', '2020-06-17 16:56:32', 'PG', 'PG', 0),
-(3, '2020-06-16 16:32:08', '2020-06-17 16:56:37', 'PG-13', 'PG-13', 0),
+(3, '2020-06-16 16:32:08', '2020-06-19 16:02:03', 'PG13', 'PG13', 0),
 (4, '2020-06-16 16:32:08', '2020-06-17 16:56:42', 'R', 'R', 0),
-(5, '2020-06-16 16:32:08', '2020-06-17 16:56:47', 'NC-17', 'NC-17', 0);
+(5, '2020-06-16 16:32:08', '2020-06-19 16:02:06', 'NC17', 'NC17', 0);
 
 -- --------------------------------------------------------
 
@@ -165,7 +193,14 @@ CREATE TABLE IF NOT EXISTS `movie_favorite` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `movie_rating_idx0` (`movie_id`,`user_account_id`),
   KEY `movie_rating_fk1` (`user_account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
+
+--
+-- Zrzut danych tabeli `movie_favorite`
+--
+
+INSERT INTO `movie_favorite` (`id`, `created`, `modified`, `movie_id`, `user_account_id`) VALUES
+(1, '2020-06-19 17:24:55', '2020-06-19 17:24:55', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -333,7 +368,14 @@ CREATE TABLE IF NOT EXISTS `user_account` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_account_idx0` (`email`),
   KEY `user_account_idx1` (`deleted`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
+
+--
+-- Zrzut danych tabeli `user_account`
+--
+
+INSERT INTO `user_account` (`id`, `created`, `modified`, `email`, `pass_hash`, `pass_salt`, `deleted`) VALUES
+(1, '2020-06-18 17:41:29', '2020-06-19 15:53:40', 'uzytkownik@java-course-wsb.pl', '445326a9643f32952bd200a7d4ed7f28f4fdada5825b5e67eea4887d78d25adf', 'e02bca8110c4831036e6a8d1e1b911424e8847aab690ad548059b6615e39285e', NULL);
 
 -- --------------------------------------------------------
 
@@ -350,7 +392,14 @@ CREATE TABLE IF NOT EXISTS `user_account_role` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_account_role_idx0` (`user_account_id`,`role_id`),
   KEY `user_account_role_fk1` (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
+
+--
+-- Zrzut danych tabeli `user_account_role`
+--
+
+INSERT INTO `user_account_role` (`id`, `created`, `modified`, `user_account_id`, `role_id`) VALUES
+(1, '2020-06-18 17:41:29', '2020-06-18 17:41:29', 1, 2);
 
 --
 -- Ograniczenia dla zrzutów tabel

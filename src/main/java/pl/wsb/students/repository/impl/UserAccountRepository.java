@@ -5,6 +5,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import pl.wsb.students.exceptions.ValidationException;
 import pl.wsb.students.hibernate.UserAccount;
+import pl.wsb.students.model.ChangePasswordRequest;
 import pl.wsb.students.model.RegisterUserRequest;
 import pl.wsb.students.repository.AbstractRepository;
 import pl.wsb.students.repository.EntityManagerHelper;
@@ -73,4 +74,41 @@ public class UserAccountRepository extends AbstractRepository<UserAccount, Integ
         return userAccount;
     }
 
+    public UserAccount changePassword(ChangePasswordRequest userRequest, String email) throws ValidationException {
+        if (userRequest == null) {
+            throw new ValidationException("userRequest");
+        } //if
+        if(!email.equals(userRequest.getEmail())) {
+            throw new ValidationException("Provided wrong email");
+        }
+        userRequest.validateData();
+        UserAccount userAccount = findByEmail(userRequest.getEmail());
+        if (userAccount == null) {
+            throw new ValidationException("Provided wrong email...");
+        } //if
+        String oldPassword = userAccount.generatePassHash(
+                userRequest.getOldpassword(),
+                userAccount.getPassSalt()
+        );
+        if (!userAccount.getPassHash().equals(oldPassword)) {
+            throw new ValidationException("Provided wrong current password...");
+        } //if
+
+        EntityManagerHelper.startTransaction();
+        userAccount.setModified(new Date());
+        userAccount.setPassSalt(
+            DigestUtils.sha256Hex(
+                RandomStringUtils.randomAlphanumeric(256)
+            )
+        );
+        userAccount.setPassHash(
+            userAccount.generatePassHash(
+                userRequest.getNewpassword(),
+                userAccount.getPassSalt()
+            )
+        );
+        EntityManagerHelper.commitTransaction();
+
+        return userAccount;
+    }
 }

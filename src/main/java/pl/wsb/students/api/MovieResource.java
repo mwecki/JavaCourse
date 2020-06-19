@@ -1,10 +1,16 @@
 package pl.wsb.students.api;
 
+import pl.wsb.students.api.handlers.ErrorHandler;
 import pl.wsb.students.api.handlers.SecurityContextHandler;
 import pl.wsb.students.consts.ApiEndpoints;
+import pl.wsb.students.exceptions.ValidationException;
 import pl.wsb.students.hibernate.UserAccount;
 import pl.wsb.students.model.MovieRatingRequest;
 import pl.wsb.students.model.MovieRequest;
+import pl.wsb.students.model.User;
+import pl.wsb.students.repository.impl.MovieFavoriteRepository;
+import pl.wsb.students.repository.impl.MovieRepository;
+import pl.wsb.students.repository.impl.UserAccountRepository;
 import pl.wsb.students.security.annotation.Authenticate;
 
 import javax.persistence.Persistence;
@@ -30,11 +36,32 @@ public class MovieResource {
         Persistence.createEntityManagerFactory("manager").createEntityManager();
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
+
     @Authenticate
     @POST
     public Response postMovie(MovieRequest body) {
-        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+        try {
+            MovieRepository movieRepository = new MovieRepository();
+            return Response.status(
+                Response.Status.OK
+            ).entity(
+                movieRepository.insertMovie(body)
+            ).build();
+        } catch (ValidationException ex) {
+            return Response.status(
+                Response.Status.BAD_REQUEST
+            ).entity(
+                ErrorHandler.getErrorResponse(ex)
+            ).build();
+        } catch (Exception ex) {
+            return Response.status(
+                Response.Status.INTERNAL_SERVER_ERROR
+            ).entity(
+                ErrorHandler.getErrorResponse(ex)
+            ).build();
+        }
     }
+
     @Authenticate
     @POST
     @Path(ApiEndpoints.MOVIE_RATE)
@@ -45,19 +72,40 @@ public class MovieResource {
     @Authenticate
     @PUT
     @Path(ApiEndpoints.MOVIE_ID_ACCEPT)
-    public Response putMovieIdAccept(Integer id) {
-        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+    public Response putMovieIdAccept(@PathParam("id") Integer id) {
+        return Response.status(Response.Status.OK).entity("mock call ok..." + id).build();
     }
     @Authenticate
     @PUT
     @Path(ApiEndpoints.MOVIE_ID_REJECT)
-    public Response putMovieIdReject(Integer id) {
+    public Response putMovieIdReject(@PathParam("id")Integer id) {
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
+
     @Authenticate
     @PUT
     @Path(ApiEndpoints.MOVIE_ID_FAVORITE)
-    public Response putMovieIdFavorite(Integer id) {
-        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+    public Response putMovieIdFavorite(@PathParam("id") Integer id) {
+        UserAccount userAccount = SecurityContextHandler.getUserAccount(securityContext);
+        try {
+            MovieFavoriteRepository movieFavoriteRepository = new MovieFavoriteRepository();
+            return Response.status(
+                Response.Status.OK
+            ).entity(
+                movieFavoriteRepository.markAsFavorite(id, userAccount)
+            ).build();
+        } catch (ValidationException ex) {
+            return Response.status(
+                    Response.Status.BAD_REQUEST
+            ).entity(
+                    ErrorHandler.getErrorResponse(ex)
+            ).build();
+        } catch (Exception ex) {
+            return Response.status(
+                    Response.Status.INTERNAL_SERVER_ERROR
+            ).entity(
+                    ErrorHandler.getErrorResponse(ex)
+            ).build();
+        }
     }
 }

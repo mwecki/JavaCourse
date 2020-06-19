@@ -54,10 +54,32 @@ public class UserResource
         }
     }
 
-    @POST
+    @Authenticate
+    @PUT
     @Path(ApiEndpoints.CHANGEPASSWORD)
-    public Response postNewPassword(ChangePasswordRequest body) {
-        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+    public Response putNewPassword(ChangePasswordRequest body) {
+        UserAccount userAccount = SecurityContextHandler.getUserAccount(securityContext);
+
+        try {
+            UserAccountRepository userAccountRepository = new UserAccountRepository();
+            return Response.status(
+                    Response.Status.OK
+            ).entity(
+                    User.createFromUserAccount(userAccountRepository.changePassword(body, userAccount.getEmail()))
+            ).build();
+        } catch (ValidationException ex) {
+            return Response.status(
+                    Response.Status.BAD_REQUEST
+            ).entity(
+                    ErrorHandler.getErrorResponse(ex)
+            ).build();
+        } catch (Exception ex) {
+            return Response.status(
+                    Response.Status.INTERNAL_SERVER_ERROR
+            ).entity(
+                    ErrorHandler.getErrorResponse(ex)
+            ).build();
+        }
     }
 
     @Authenticate

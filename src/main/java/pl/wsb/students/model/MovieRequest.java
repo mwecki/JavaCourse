@@ -18,6 +18,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModelProperty;
+import org.apache.commons.lang3.StringUtils;
+import pl.wsb.students.exceptions.ValidationException;
+
 import javax.validation.constraints.*;
 
 /**
@@ -260,6 +263,24 @@ public class MovieRequest   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validateData() throws ValidationException {
+    if (StringUtils.isBlank(this.genre.value)) {
+      throw new ValidationException("Please provide genre...");
+    }
+    if (StringUtils.isBlank(this.category.value)) {
+      throw new ValidationException("Please provide category...");
+    }
+    if (StringUtils.isBlank(this.title)) {
+      throw new ValidationException("Please provide title...");
+    }
+    if (StringUtils.isBlank(this.year)) {
+      throw new ValidationException("Please provide title...");
+    }
+    if (StringUtils.isBlank(this.director)) {
+      throw new ValidationException("Please provide title...");
+    }
   }
 }
 
